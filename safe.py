@@ -2,6 +2,7 @@ import sqlite3 as sql
 import random
 
 conn = sql.connect('files.db')
+PASSWORD = "kittalu72"
 
 try:
     conn.execute("""CREATE TABLE files 
@@ -36,27 +37,34 @@ def retrieve_files():
     m = cursor.execute("""SELECT * FROM files """)
     for x in m:
         data = x[1]
-        with open('bruh.' + x[2], 'wb') as file:
+        with open(str(random.randint(1, 100000)) + x[2], 'wb') as file:
             file.write(data)
 
-
+count = 0
 while True:
-    print("________________________________")
-    store = input("Do you want to store files?(y/n)\n>")
-    if store == "y":
-        path = input("\nPaste the absolute path of the file you want to store:\n>")
-        write_files(path)
+    password = input("Please enter the password:\n>")
+    if(password == PASSWORD and count <= 3):
+        print("________________________________")
+        store = input("Do you want to store files?(y/n)\n>")
+        if store == "y":
+            path = input("\nPaste the absolute path of the file you want to store:\n>")
+            write_files(path)
+            break
+        elif store == "n":
+            retrieve = input("Would you like to retrieve files?(y/n)\n>")
+            if retrieve == "y":
+                retrieve_files()
+                break
+            elif retrieve == "n":
+                print("Well, that's all I can do for you.")
+                break
+        else:
+            print("Please enter one of the listed options 'y' or 'n'")
+    elif count > 3:
+        print("Security check failed.")
         break
-    elif store == "n":
-        retrieve = input("Would you like to retrieve files?(y/n)\n>")
-        if retrieve == "y":
-            retrieve_files()
-            break
-        elif retrieve == "n":
-            print("Well, that's all I can do for you.")
-            break
     else:
-        print("Please enter one of the listed options 'y' or 'n'")
+        count+=1
 
 conn.commit()
 
