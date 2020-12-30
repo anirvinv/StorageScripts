@@ -2,7 +2,7 @@ import sqlite3 as sql
 import random
 
 conn = sql.connect('files.db')
-PASSWORD = "kittalu72"
+PASSWORD = "password"
 
 try:
     conn.execute("""CREATE TABLE files 
