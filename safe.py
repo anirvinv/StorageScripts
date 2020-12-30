@@ -37,7 +37,7 @@ def retrieve_files():
     m = cursor.execute("""SELECT * FROM files """)
     for x in m:
         data = x[1]
-        with open(str(random.randint(1, 100000)) + x[2], 'wb') as file:
+        with open(str(random.randint(1, 100000)) + "." + x[2], 'wb') as file:
             file.write(data)
 
 count = 0
